@@ -1,22 +1,23 @@
 #!/usr/bin/python3
+import sys
+from calculator_1 import add, sub, mul, div
 if __name__ == "__main__":
-    from calculator_1 import add, sub, mul, div
-    import sys
-    num_args = len(sys.argv)
-    if num_args != 4:
+    # check usage
+    if len(sys.argv) != 4:
         print("Usage: ./100-my_calculator.py <a> <operator> <b>")
-        exit(1)
-        a = int(sys.argv[1])
-        op = sys.argv[2]
-        b = int(sys.argv[3])
+        sys.exit(1)
+    if sys.argv[2] not in ['+', '-', '*', '/']:
+        print("Unknown operator. Available operators: +, -, * and /")
+        sys.exit(1)
+        a, op, b = sys.argv[1:]
+        # choose operation
         if op == '+':
-            print("{} {} {} = {}".format(a, op, b, add(a, b)))
+            func = add
         elif op == '-':
-            print("{} {} {} = {}".format(a, op, b, sub(a, b)))
+            func = sub
         elif op == '*':
-            print("{} {} {} = {}".format(a, op, b, mul(a, b)))
-        elif op == '/':
-            print("{} {} {} = {}".format(a, op, b, div(a, b)))
+            func = mul
         else:
-            print("Unknown operator. Available operators: +, -, * and /")
-            exit(1)
+            func = div
+            # perfom calculation and print result
+        print("{} {} {} = {:d}".format(a, op, b, func(int(a), int(b))))
